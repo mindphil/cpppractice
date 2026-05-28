@@ -30,7 +30,6 @@ int read(Bitboard board, int x, int y)
     return (board & (1ULL << (y * 8 + x))) >> (y * 8 + x);
 }
 
-
 void print(Bitboard index)
 {
     for (int y = 7; y >= 0; y--) { //row 7 to row 0
@@ -49,10 +48,14 @@ void print(Bitboard index)
 int main(){
     
     Bitboard board = 0ULL; //initalize as empty
-
+    //for (int y = 7; y >=0; y--){
+    //    for (int x = 0; x < 8; x++){
+    //        set(board, x, y);
+    //    }
+    //}
     set(board, 0, 0);
-    set(board, 3, 4);
-    set(board, 8, 9);
+    set(board, 4, 4);
+    set(board, 7, 7);
     print(board);
     return 0;
 }
