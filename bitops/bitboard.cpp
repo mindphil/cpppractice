@@ -4,6 +4,9 @@
 // ~ = Bitwise NOT (Inverts bits)
 // << = Left shift, filling vacancies with 0's
 // >> = Right shift
+// y * 8 + x index formula translates an 8x8 grid into a 1-dimensional sequence from 0 to 63
+//remark: y*8 to jump to the right row, + x to move along that row.
+// 1ULL << (y * 8 + x) mask: single 1 at target position
 
 #include <iostream>
 #include <cstdint>
@@ -12,15 +15,27 @@ using namespace std;
 
 typedef uint64_t Bitboard;
 
-Bitboard grid(int k)
+void set(Bitboard &board, int x, int y)
 {
-
+    board |= (1ULL << (y * 8 + x));
 }
 
-void print_board(Bitboard index) {
-    for (int i = 7; i >= 0; i--) { //row 7 to row 0
-        for (int j = 0; j < 8; j++) {
-            if (index & (1ULL << (i * 8 + j))) { //The index formula translates an 8x8 grid into a 1-dimensional sequence from 0 to 63
+void clear(Bitboard &board, int x, int y)
+{
+    board &= ~(1ULL << (y * 8 + x));
+}
+
+int read(Bitboard board, int x, int y)
+{
+    return (board & (1ULL << (y * 8 + x))) >> (y * 8 + x);
+}
+
+
+void print(Bitboard index)
+{
+    for (int y = 7; y >= 0; y--) { //row 7 to row 0
+        for (int x = 0; x < 8; x++) { //col 0 to 7
+            if (index & (1ULL << (y * 8 + x))) {
                 cout << "1 ";
             } else {
                 cout << "0 ";
@@ -33,7 +48,11 @@ void print_board(Bitboard index) {
 
 int main(){
     
-    //set some bits
+    Bitboard board = 0ULL; //initalize as empty
 
+    set(board, 0, 0);
+    set(board, 3, 4);
+    set(board, 8, 9);
+    print(board);
     return 0;
 }
