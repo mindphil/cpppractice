@@ -13,24 +13,45 @@
 
 using namespace std;
 
-typedef uint64_t Bitboard;
-
-void set(Bitboard &board, int x, int y)
+void set(uint64_t &board, int x, int y)
 {
     board |= (1ULL << (y * 8 + x));
 }
 
-void clear(Bitboard &board, int x, int y)
+void clear(uint64_t &board, int x, int y)
 {
     board &= ~(1ULL << (y * 8 + x));
 }
 
-int read(Bitboard board, int x, int y)
+//int read(uint64_t board, int x, int y)
+//{
+//    return (board & (1ULL << (y * 8 + x))) >> (y * 8 + x);
+//}
+//A more clever way
+bool read(uint64_t board, int x, int y)
 {
-    return (board & (1ULL << (y * 8 + x))) >> (y * 8 + x);
+    return (board & (1ULL << (y * 8 + x)));
 }
 
-void print(Bitboard index)
+bool paireval(uint64_t board, int s, int t, int u, int v)
+{
+    return ((board & (1ULL << (t * 8 + s))) && (board & (1ULL << (v * 8 + u))));
+}
+
+int getpair (uint64_t board, int x , int y)
+{
+    //return ((board & (1ULL << (y * 8 + x)) << ((y+1) * 8 + (x+1))); 
+    //((y+1) * 8 + (x+1))
+    return (board & (1ULL << (y * 8 + (x-1)))); //<< ((y+1) * 8 + (x+1)));
+}   
+
+//challenge 2: Make a function which determines if any two neighboring bits are both ones on that 8x8 grid
+int checkneighbor (uint64_t board, int x, int y)
+{
+    return ((board & (1ULL << (y * 8 + x))) && (board & (1ULL << (y * 8 + (x-1)))));
+}
+
+void print(uint64_t index)
 {
     for (int y = 7; y >= 0; y--) { //row 7 to row 0
         for (int x = 0; x < 8; x++) { //col 0 to 7
@@ -47,7 +68,7 @@ void print(Bitboard index)
 
 int main(){
     
-    Bitboard board = 0ULL; //initalize as empty
+    uint64_t board = 0ULL; //initalize as empty
     //for (int y = 7; y >=0; y--){
     //    for (int x = 0; x < 8; x++){
     //        set(board, x, y);
@@ -56,6 +77,13 @@ int main(){
     set(board, 0, 0);
     set(board, 4, 4);
     set(board, 7, 7);
+    set(board, 6, 7);
     print(board);
+    //test
+    //print(read(board, 7, 7));
+    //print(paireval(board, 7, 7, 4, 4));
+    print(getpair(board, 7, 7));
+    print(checkneighbor(board, 7, 7));
+    print(checkneighbor(board, 4, 4));
     return 0;
 }
