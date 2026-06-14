@@ -7,6 +7,7 @@
 // y * 8 + x index formula translates an 8x8 grid into a 1-dimensional sequence from 0 to 63
 //remark: y*8 to jump to the right row, + x to move along that row.
 // 1ULL << (y * 8 + x) mask: single 1 at target position
+//https://tearth.dev/bitboard-viewer/
 
 #include <iostream>
 #include <cstdint>
@@ -38,17 +39,24 @@ bool paireval(uint64_t board, int s, int t, int u, int v)
     return ((board & (1ULL << (t * 8 + s))) && (board & (1ULL << (v * 8 + u))));
 }
 
-int getpair (uint64_t board, int x , int y)
+int getpair (uint64_t board, int x , int y) 
 {
     //return ((board & (1ULL << (y * 8 + x)) << ((y+1) * 8 + (x+1))); 
     //((y+1) * 8 + (x+1))
     return (board & (1ULL << (y * 8 + (x-1)))); //<< ((y+1) * 8 + (x+1)));
 }   
 
-//challenge 2: Make a function which determines if any two neighboring bits are both ones on that 8x8 grid
-int checkneighbor (uint64_t board, int x, int y)
+//a simpler challenge: are there two consecutive 1s in a 64-bit integer (not a grid)
+bool consecutive_ones(uint64_t number)
 {
-    return ((board & (1ULL << (y * 8 + x))) && (board & (1ULL << (y * 8 + (x-1)))));
+    return (number & (number >> 1));
+}
+//challenge 2: Make a function which determines if any two neighboring bits are both ones on that 8x8 grid
+bool checkneighbor (uint64_t board)
+{
+    int horizontal = board & (board >> 1);
+    int vertical = board & (board >> 8); //vertical neighbors are 8 bits apart
+    return (horizontal | vertical);
 }
 
 void print(uint64_t index)
@@ -68,7 +76,7 @@ void print(uint64_t index)
 
 int main(){
     
-    uint64_t board = 0ULL; //initalize as empty
+    uint64_t board = 0ULL; //initialize as empty
     //for (int y = 7; y >=0; y--){
     //    for (int x = 0; x < 8; x++){
     //        set(board, x, y);
@@ -82,8 +90,7 @@ int main(){
     //test
     //print(read(board, 7, 7));
     //print(paireval(board, 7, 7, 4, 4));
-    print(getpair(board, 7, 7));
-    print(checkneighbor(board, 7, 7));
-    print(checkneighbor(board, 4, 4));
+    //print(getpair(board, 7, 7));
+    print(checkneighbor(board));
     return 0;
 }
