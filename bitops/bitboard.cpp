@@ -58,7 +58,19 @@ bool checkneighbor (uint64_t board)
     int vertical = board & (board >> 8); //vertical neighbors are 8 bits apart
     return (horizontal | vertical);
 }
-
+//challenge 3: Make a function which determines if there is a one in every row on that 8x8 grid
+int checkrow (uint64_t board)
+{   
+    for (int y = 7; y>= 0; y--){
+        uint64_t mask = 0ULL;
+        for (int x = 0; x < 8; x++){
+            mask |= 1ULL << (y * 8 + x);
+        }
+        if ((mask & board) == 0ULL){
+            return (0ULL);}
+    }
+    return(1ULL);
+} 
 void print(uint64_t index)
 {
     for (int y = 7; y >= 0; y--) { //row 7 to row 0
@@ -77,20 +89,24 @@ void print(uint64_t index)
 int main(){
     
     uint64_t board = 0ULL; //initialize as empty
-    //for (int y = 7; y >=0; y--){
-    //    for (int x = 0; x < 8; x++){
-    //        set(board, x, y);
-    //    }
-    //}
-    set(board, 0, 0);
-    set(board, 4, 4);
-    set(board, 7, 7);
-    set(board, 6, 7);
+    uint64_t board2 = 0ULL;
+    for (int y = 7; y >=0; y--){
+        for (int x = 0; x < 8; x++){
+            set(board2, x, y);
+        }
+    }
+    set(board, 0, 2);
+    // set(board, 4, 4);
+    // set(board, 7, 7);
+    // set(board, 6, 7);
     print(board);
+    print(board2);
     //test
     //print(read(board, 7, 7));
     //print(paireval(board, 7, 7, 4, 4));
     //print(getpair(board, 7, 7));
-    print(checkneighbor(board));
+    // print(checkneighbor(board));
+    print (checkrow(board));
+    print (checkrow(board2));
     return 0;
 }
