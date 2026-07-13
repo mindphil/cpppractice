@@ -1,5 +1,4 @@
 #include <iostream>
-// #include <cstdlib>
 
 void printBits(unsigned char byte)
 {
@@ -74,3 +73,14 @@ int main()
 
     return 0;
 }
+
+// & = Bitwise AND (1 if both bits are 1)
+// | = Bitwise OR (1 if at least one bit is 1)
+// ^ = Bitwise XOR (1 if bits are different)
+// ~ = Bitwise NOT (Inverts bits)
+// << = Left shift, filling vacancies with 0's
+// >> = Right shift
+// y * 8 + x index formula translates an 8x8 grid into a 1-dimensional sequence from 0 to 63
+//remark: y*8 to jump to the right row, + x to move along that row.
+// 1ULL << (y * 8 + x) mask: single 1 at target position
+//https://tearth.dev/bitboard-viewer/
